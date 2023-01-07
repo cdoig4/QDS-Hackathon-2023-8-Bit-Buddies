@@ -42,9 +42,9 @@ def min_wage_data():
     plt.show()
 
 
-def calculate_correlation():
+def calculate_correlation(x_axis_data, y_axis_data):
     data_2018 = pd.read_csv('happiness_via_min_wage.csv')
-    happiness_score = data_2018['Happiness score']
-    comparison_data = data_2018['2018']
-    correlation, _ = pearsonr(happiness_score, comparison_data)
+    x_axis_values = data_2018[x_axis_data]
+    y_axis_values = data_2018[y_axis_data]
+    correlation, _ = pearsonr(x_axis_values, y_axis_values)
     return correlation
