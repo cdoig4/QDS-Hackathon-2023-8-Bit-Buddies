@@ -2,8 +2,8 @@ import pandas as pd
 import plotly.express as px
 import csv
 
-# with open('2015.csv') as csv_file:
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_apple_stock.csv')
-fig = px.line(df, x = 'AAPL_x', y = 'AAPL_y', title='Apple Share Prices over time (2014)')
 
+test_file = pd.read_csv('2015.csv')
+fig = px.scatter(test_file, x = 'Economy (GDP per Capita)', y = 'Happiness Score', title='Economy with Happiness Rank (2015)')
 fig.show()
+
