@@ -13,13 +13,16 @@ import numpy as np
 # print(results)
 
 data = pd.read_csv('2015.csv')
-family = data['Family'].strip()
-freedom = data['Freedom']
-plt.scatter(family, freedom)
-plt.title('family vs freedom 2015')
-plt.xlabel('family')
-plt.ylabel('freedom')
+family = data['Happiness Score']
+economy = data['Economy (GDP per Capita)']
+plt.scatter(family, economy, edgecolor='black', linewidths=1)
+plt.title('Happiness Score vs Economy (GDP per Capita)')
+plt.xlabel('Happiness Score')
+plt.ylabel('Economy')
 plt.tight_layout()
+trendline = np.polyfit(family, economy, 1)
+calculate_trend = np.poly1d(trendline)
+plt.plot(family, calculate_trend(family))
 plt.show()
 
 
