@@ -12,11 +12,11 @@ import numpy as np
 # results = px.get_trendline_results(fig)
 # print(results)
 def global_data(parameter):
-    data = pd.read_csv('2019.csv')
-    happiness_score = data['Happiness score']
-    comparison_data = data[parameter]
+    data_2019 = pd.read_csv('2019.csv')
+    happiness_score = data_2019['Happiness score']
+    comparison_data = data_2019[parameter]
     plt.scatter(happiness_score, comparison_data, edgecolor='black', linewidths=1)
-    plt.title(f"Correlation between {parameter} and Happiness")
+    plt.title(f"Correlation between Happiness and {parameter}")
     plt.xlabel('Happiness Score')
     plt.ylabel(parameter)
     plt.tight_layout()
@@ -24,6 +24,8 @@ def global_data(parameter):
     calculate_trend = np.poly1d(trendline)
     plt.plot(happiness_score, calculate_trend(happiness_score))
     plt.show()
+
+global_data('GDP per capita')
 
 
 
