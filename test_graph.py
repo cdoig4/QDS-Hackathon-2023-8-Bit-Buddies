@@ -13,8 +13,8 @@ import numpy as np
 # print(results)
 
 data = pd.read_csv('2015.csv')
-family = data['Happiness Score']
-economy = data['Economy (GDP per Capita)']
+family = data['Happiness score']
+economy = data['GDP per capita']
 plt.scatter(family, economy, edgecolor='black', linewidths=1)
 plt.title('Happiness Score vs Economy (GDP per Capita)')
 plt.xlabel('Happiness Score')
