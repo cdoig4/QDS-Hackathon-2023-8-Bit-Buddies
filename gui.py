@@ -34,7 +34,6 @@ def draw_figure(canvas, figure):
 
 
 fig = plt.gcf()
-figure_x, figure_y, figure_w, figure_h = fig.bbox.bounds
 
 df = pd.read_csv("2019.csv")
 
@@ -57,7 +56,7 @@ layout = [
                "Perceptions of corruption"],
               enable_events=True, key='-PARAMETER-')],
     [sg.Button("PLOT 2"), sg.Button("PLOT 3")],
-    [sg.Canvas(size=(figure_w, figure_h), key='-CANVAS-')],
+    [sg.Canvas(size=(500, 350), key='-CANVAS-')],
     [sg.Button("CLOSE")]
 ]
 
@@ -65,11 +64,11 @@ window = sg.Window(title="Happiness Report", layout=layout, force_toplevel=True,
 
 while True:
     event, values = window.read()
-    if event == "PLOT" or event == sg.WIN_CLOSED:
+    if event == "PLOT 1" or event == sg.WIN_CLOSED:
         parameter = values['-PARAMETER-']
         plot_values = country_history(values['-LOCATION-'], parameter)
         plot_bar_chart('Plot Title', plot_values, f'{parameter}')
-        fig_photo = draw_figure(window['-CANVAS-'].TKCanvas, fig)
+        draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "CLOSE" or event == sg.WIN_CLOSED:
         break
 
