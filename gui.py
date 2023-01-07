@@ -60,7 +60,8 @@ layout = [
     [sg.Button("CLOSE")]
 ]
 
-window = sg.Window(title="Happiness Report", layout=layout, force_toplevel=True, finalize=True)
+window = sg.Window(title="Happiness Report", layout=layout, force_toplevel=True, finalize=True,
+                   size=(1000, 1000))
 
 while True:
     event, values = window.read()
