@@ -3,6 +3,7 @@ import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 matplotlib.use('TkAgg')
 
