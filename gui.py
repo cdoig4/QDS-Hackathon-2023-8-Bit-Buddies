@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+import pandas as pd
 import math
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -23,6 +24,36 @@ def plot_bar_chart(plot_title, values_to_plot, y_axis_label):
     plt.xticks(ind, (2015, 2016, 2017, 2018, 2019))
     plt.yticks(np.arange(0, y_tick, y_tick * 0.1))
     plt.legend((p1[0],), ('Data Group 1',))
+
+
+def global_data(parameter):
+    data_2019 = pd.read_csv('2019.csv')
+    happiness_score = data_2019['Happiness score']
+    comparison_data = data_2019[parameter]
+    plt.scatter(happiness_score, comparison_data, edgecolor='black', linewidths=1)
+    plt.title(f"Correlation between Happiness and {parameter}")
+    plt.xlabel('Happiness Score')
+    plt.ylabel(parameter)
+    plt.tight_layout()
+    trendline = np.polyfit(happiness_score, comparison_data, 1)
+    calculate_trend = np.poly1d(trendline)
+    plt.plot(happiness_score, calculate_trend(happiness_score))
+    plt.show()
+
+
+def min_wage_data():
+    data_2018 = pd.read_csv('happiness_via_min_wage.csv')
+    happiness_score = data_2018['Happiness score']
+    comparison_data = data_2018['2018']
+    plt.scatter(happiness_score, comparison_data, edgecolors='black', linewidths=1)
+    plt.title(f"Correlation between Happiness and Minimum Wage")
+    plt.xlabel('Happiness Score')
+    plt.ylabel('Minimum Wage')
+    plt.tight_layout()
+    trendline = np.polyfit(happiness_score, comparison_data, 1)
+    calculate_trend = np.poly1d(trendline)
+    plt.plot(happiness_score, calculate_trend(happiness_score))
+    plt.show()
 
 
 def draw_figure(canvas, figure):
