@@ -1,10 +1,10 @@
 import PySimpleGUI as sg
 
 layout = [
-    [sg.Text("Hello from PySimpleGUI")],
+    [sg.Text("Location")],
     [sg.In(size=(25, 1), enable_events=True, key='location')],
     [sg.Button("OK")],
-    [sg.Listbox(values=[], enable_events=True, size=(40, 20), key='file_list')]
+    [sg.Canvas(size=(400, 400), key='canvas')]
 ]
 
 window = sg.Window(title="Happiness Report", layout=layout)
