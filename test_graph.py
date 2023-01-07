@@ -11,19 +11,19 @@ import numpy as np
 #
 # results = px.get_trendline_results(fig)
 # print(results)
-
-data = pd.read_csv('2015.csv')
-family = data['Happiness Score']
-economy = data['Economy (GDP per Capita)']
-plt.scatter(family, economy, edgecolor='black', linewidths=1)
-plt.title('Happiness Score vs Economy (GDP per Capita)')
-plt.xlabel('Happiness Score')
-plt.ylabel('Economy')
-plt.tight_layout()
-trendline = np.polyfit(family, economy, 1)
-calculate_trend = np.poly1d(trendline)
-plt.plot(family, calculate_trend(family))
-plt.show()
+def global_data(parameter):
+    data = pd.read_csv('2019.csv')
+    happiness_score = data['Happiness score']
+    comparison_data = data[parameter]
+    plt.scatter(happiness_score, comparison_data, edgecolor='black', linewidths=1)
+    plt.title(f"Correlation between {parameter} and Happiness")
+    plt.xlabel('Happiness Score')
+    plt.ylabel(parameter)
+    plt.tight_layout()
+    trendline = np.polyfit(happiness_score, comparison_data, 1)
+    calculate_trend = np.poly1d(trendline)
+    plt.plot(happiness_score, calculate_trend(happiness_score))
+    plt.show()
 
 
 
