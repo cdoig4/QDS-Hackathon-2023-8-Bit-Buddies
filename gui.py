@@ -41,21 +41,6 @@ def global_data(parameter):
     plt.show()
 
 
-def min_wage_data():
-    data_2018 = pd.read_csv('happiness_via_min_wage.csv')
-    happiness_score = data_2018['Happiness score']
-    comparison_data = data_2018['2018']
-    plt.scatter(happiness_score, comparison_data, edgecolors='black', linewidths=1)
-    plt.title(f"Correlation between Happiness and Minimum Wage")
-    plt.xlabel('Happiness Score')
-    plt.ylabel('Minimum Wage')
-    plt.tight_layout()
-    trendline = np.polyfit(happiness_score, comparison_data, 1)
-    calculate_trend = np.poly1d(trendline)
-    plt.plot(happiness_score, calculate_trend(happiness_score))
-    plt.show()
-
-
 def draw_figure(canvas, figure):
     figure_canvas_agg = FigureCanvasTkAgg(figure, canvas)
     figure_canvas_agg.draw()
