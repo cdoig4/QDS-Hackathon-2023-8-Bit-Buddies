@@ -1,9 +1,9 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 import plotly.express as px
 import statsmodels.api as sm
 import csv
-import matplotlib.pyplot as plt
-import numpy as np
 
 # test_file = pd.read_csv('2015.csv')
 # fig = px.scatter(test_file, x='Economy (GDP per Capita)', y = 'Happiness Score', trendline='ols')
