@@ -26,36 +26,6 @@ def plot_bar_chart(plot_title, values_to_plot, y_axis_label):
     plt.legend((p1[0],), ('Data Group 1',))
 
 
-def global_data(parameter):
-    data_2019 = pd.read_csv('2019.csv')
-    happiness_score = data_2019['Happiness score']
-    comparison_data = data_2019[parameter]
-    plt.scatter(happiness_score, comparison_data, edgecolor='black', linewidths=1)
-    plt.title(f"Correlation between Happiness and {parameter}")
-    plt.xlabel('Happiness Score')
-    plt.ylabel(parameter)
-    plt.tight_layout()
-    trendline = np.polyfit(happiness_score, comparison_data, 1)
-    calculate_trend = np.poly1d(trendline)
-    plt.plot(happiness_score, calculate_trend(happiness_score))
-    plt.show()
-
-
-def min_wage_data():
-    data_2018 = pd.read_csv('happiness_via_min_wage.csv')
-    happiness_score = data_2018['Happiness score']
-    comparison_data = data_2018['2018']
-    plt.scatter(happiness_score, comparison_data, edgecolors='black', linewidths=1)
-    plt.title(f"Correlation between Happiness and Minimum Wage")
-    plt.xlabel('Happiness Score')
-    plt.ylabel('Minimum Wage')
-    plt.tight_layout()
-    trendline = np.polyfit(happiness_score, comparison_data, 1)
-    calculate_trend = np.poly1d(trendline)
-    plt.plot(happiness_score, calculate_trend(happiness_score))
-    plt.show()
-
-
 def draw_figure(canvas, figure):
     figure_canvas_agg = FigureCanvasTkAgg(figure, canvas)
     figure_canvas_agg.draw()
@@ -66,20 +36,27 @@ def draw_figure(canvas, figure):
 fig = plt.gcf()
 figure_x, figure_y, figure_w, figure_h = fig.bbox.bounds
 
+df = pd.read_csv("2019.csv")
+
+
 layout = [
-    [sg.Text("Location")],
-    [sg.Combo(["Norway", "Denmark", "Canada"], enable_events=True, key='-LOCATION-')],
-    [sg.Text("Parameter")],
+    [sg.Text("Select a country and parameter and click PLOT 1 to view the parameter score over time:")],
+    [sg.Text("Country")],
+    [sg.Combo(sorted(df['Country'].values[:]), enable_events=True, key='-LOCATION-')],
+    [sg.Text("Parameter (by Country)")],
     [sg.Combo(["Happiness score", "Happiness rank", "GDP per capita", "Social support",
                "Healthy life expectancy", "Freedom to make life choices", "Generosity",
                "Perceptions of corruption"],
               enable_events=True, key='-PARAMETER-')],
-    [sg.Text("Parameter")],
+    [sg.Button("PLOT 1")],
+    [sg.Text('\nSelect a country and parameter and click PLOT 2 to view the Happiness Score vs. '
+             'Parameter:')],
+    [sg.Text("Parameter (Global)")],
     [sg.Combo(["Happiness score", "Happiness rank", "GDP per capita", "Social support",
                "Healthy life expectancy", "Freedom to make life choices", "Generosity",
                "Perceptions of corruption"],
               enable_events=True, key='-PARAMETER-')],
-    [sg.Button("PLOT")],
+    [sg.Button("PLOT 2"), sg.Button("PLOT 3")],
     [sg.Canvas(size=(figure_w, figure_h), key='-CANVAS-')],
     [sg.Button("CLOSE")]
 ]
