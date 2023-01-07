@@ -7,16 +7,15 @@ import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
 
 
-def plot():
-    values_to_plot = (20, 35, 30, 35, 27)
+def plot_bar_chart(plot_title, values_to_plot, x_value_labels, y_axis_label):
     ind = np.arange(len(values_to_plot))
     width = 0.4
 
     p1 = plt.bar(ind, values_to_plot, width)
 
-    plt.ylabel('Y-Axis Values')
-    plt.title('Plot Title')
-    plt.xticks(ind, ('Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'))
+    plt.ylabel(y_axis_label)
+    plt.title(plot_title)
+    plt.xticks(ind, x_value_labels)
     plt.yticks(np.arange(0, 81, 10))
     plt.legend((p1[0],), ('Data Group 1',))
 
@@ -44,9 +43,10 @@ window = sg.Window(title="Happiness Report", layout=layout, force_toplevel=True,
 while True:
     event, values = window.read()
     if event == "PLOT" or event == sg.WIN_CLOSED:
-        plot()
+        plot_bar_chart('Plot Title', (20, 35, 30, 35, 27), ('Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5')
+             , 'Y-Axis Values')
         fig_photo = draw_figure(window['-CANVAS-'].TKCanvas, fig)
-    if event == "OK" or event == sg.WIN_CLOSED:
+    if event == "CLOSE" or event == sg.WIN_CLOSED:
         break
 
 window.close()

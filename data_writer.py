@@ -1,3 +1,6 @@
+"""
+Module to combine data sets into new csv files for project use
+"""
 import pandas as pd
 
 pd.options.display.max_rows = None
@@ -18,7 +21,6 @@ initial_combined_data_frame.drop([0, 1, 2, 3, 5, 6, 7, 8, 10, 12, 13, 14, 15, 16
 
 initial_combined_data_frame.to_csv('happiness_via_min_wage.csv')
 
-0, 1, 2, 3, 5, 6, 7, 8, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
 food_security_data_frame = pd.read_csv('FAOSTAT_data_8-15-2021.csv')
 
 final_combined_data_frame = pd.merge(initial_combined_data_frame, food_security_data_frame, how='inner',
