@@ -32,7 +32,10 @@ figure_x, figure_y, figure_w, figure_h = fig.bbox.bounds
 
 layout = [
     [sg.Text("Location")],
-    [sg.In(size=(25, 1), enable_events=True, key='-LOCATION-')],
+    [sg.Combo(["Norway", "Denmark", "Canada"], enable_events=True, key='-LOCATION-')],
+    [sg.Text("Parameter")],
+    [sg.Combo(["Happiness Score", "Happiness Rank", "GDP", "Family/Social", "Life Expectancy"],
+              enable_events=True, key='-LOCATION-')],
     [sg.Button("PLOT")],
     [sg.Canvas(size=(figure_w, figure_h), key='-CANVAS-')],
     [sg.Button("CLOSE")]
@@ -43,8 +46,8 @@ window = sg.Window(title="Happiness Report", layout=layout, force_toplevel=True,
 while True:
     event, values = window.read()
     if event == "PLOT" or event == sg.WIN_CLOSED:
-        plot_bar_chart('Plot Title', (20, 35, 30, 35, 27), ('Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5')
-             , 'Y-Axis Values')
+        plot_bar_chart('Plot Title', (20, 35, 30, 35, 27), ('Item 1', 'Item 2', 'Item 3', 'Item 4',
+                                                            'Item 5'), 'Y-Axis Values')
         fig_photo = draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "CLOSE" or event == sg.WIN_CLOSED:
         break
