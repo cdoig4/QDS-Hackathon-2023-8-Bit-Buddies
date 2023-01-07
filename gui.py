@@ -1,23 +1,27 @@
 import PySimpleGUI as sg
+import math
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
+from country_history import country_history
 
 matplotlib.use('TkAgg')
 
 
-def plot_bar_chart(plot_title, values_to_plot, x_value_labels, y_axis_label):
+def plot_bar_chart(plot_title, values_to_plot, y_axis_label):
     ind = np.arange(len(values_to_plot))
     width = 0.4
 
     p1 = plt.bar(ind, values_to_plot, width)
 
+    maximum_value = max(values_to_plot)
+    y_tick = math.ceil(maximum_value * 1.1)
+
     plt.ylabel(y_axis_label)
     plt.title(plot_title)
-    plt.xticks(ind, x_value_labels)
-    plt.yticks(np.arange(0, 81, 10))
+    plt.xticks(ind, (2015, 2016, 2017, 2018, 2019))
+    plt.yticks(np.arange(0, y_tick, y_tick * 0.1))
     plt.legend((p1[0],), ('Data Group 1',))
 
 
@@ -35,8 +39,15 @@ layout = [
     [sg.Text("Location")],
     [sg.Combo(["Norway", "Denmark", "Canada"], enable_events=True, key='-LOCATION-')],
     [sg.Text("Parameter")],
-    [sg.Combo(["Happiness Score", "Happiness Rank", "GDP", "Family/Social", "Life Expectancy"],
-              enable_events=True, key='-LOCATION-')],
+    [sg.Combo(["Happiness score", "Happiness rank", "GDP per capita", "Social support",
+               "Healthy life expectancy", "Freedom to make life choices", "Generosity",
+               "Perceptions of corruption"],
+              enable_events=True, key='-PARAMETER-')],
+    [sg.Text("Parameter")],
+    [sg.Combo(["Happiness score", "Happiness rank", "GDP per capita", "Social support",
+               "Healthy life expectancy", "Freedom to make life choices", "Generosity",
+               "Perceptions of corruption"],
+              enable_events=True, key='-PARAMETER-')],
     [sg.Button("PLOT")],
     [sg.Canvas(size=(figure_w, figure_h), key='-CANVAS-')],
     [sg.Button("CLOSE")]
@@ -47,8 +58,9 @@ window = sg.Window(title="Happiness Report", layout=layout, force_toplevel=True,
 while True:
     event, values = window.read()
     if event == "PLOT" or event == sg.WIN_CLOSED:
-        plot_bar_chart('Plot Title', (20, 35, 30, 35, 27), ('Item 1', 'Item 2', 'Item 3', 'Item 4',
-                                                            'Item 5'), 'Y-Axis Values')
+        parameter = values['-PARAMETER-']
+        plot_values = country_history(values['-LOCATION-'], parameter)
+        plot_bar_chart('Plot Title', plot_values, f'{parameter}')
         fig_photo = draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "CLOSE" or event == sg.WIN_CLOSED:
         break
