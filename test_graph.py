@@ -4,6 +4,7 @@ import numpy as np
 import plotly.express as px
 import statsmodels.api as sm
 import csv
+from scipy.stats import pearsonr
 
 # test_file = pd.read_csv('2015.csv')
 # fig = px.scatter(test_file, x='Economy (GDP per Capita)', y = 'Happiness Score', trendline='ols')
@@ -39,3 +40,11 @@ def min_wage_data():
     calculate_trend = np.poly1d(trendline)
     plt.plot(happiness_score, calculate_trend(happiness_score))
     plt.show()
+
+
+def calculate_correlation():
+    data_2018 = pd.read_csv('happiness_via_min_wage.csv')
+    happiness_score = data_2018['Happiness score']
+    comparison_data = data_2018['2018']
+    correlation, _ = pearsonr(happiness_score, comparison_data)
+    return correlation
