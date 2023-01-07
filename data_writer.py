@@ -1,3 +1,6 @@
+"""
+Module to combine data sets into new csv files for project use
+"""
 import pandas as pd
 
 pd.options.display.max_rows = None
