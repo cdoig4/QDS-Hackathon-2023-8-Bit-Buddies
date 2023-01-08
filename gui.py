@@ -68,7 +68,6 @@ def draw_figure(canvas, figure):
 
 
 fig = plt.gcf()
-
 df = pd.read_csv("2019.csv")
 
 
@@ -102,7 +101,7 @@ window = sg.Window(title="Happiness Report", layout=layout, force_toplevel=True,
 
 while True:
     event, values = window.read()
-    if event == "PLOT 1" or event == sg.WIN_CLOSED:
+    if event == "PLOT 1":
         parameter = values['-PARAMETER-']
         comparison_country = values['-COMPARISON_LOCATION-']
         plot_values = country_history(values['-LOCATION-'], parameter)
@@ -117,9 +116,11 @@ while True:
             comparison_values = country_history(values['-COMPARISON_LOCATION-'], parameter)
             plot_title = f"Comparison of {country_a} vs {country_b} on {parameter}"
             plot_bar_chart(plot_title, plot_values, comparison_values, country_a, parameter, country_b)
-
         draw_figure(window['-CANVAS-'].TKCanvas, fig)
-
+    if event == "PLOT 2":
+        draw_figure(window['-CANVAS-'].TKCanvas, fig)
+    if event == "PLOT 3":
+        draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "CLOSE" or event == sg.WIN_CLOSED:
         break
 
