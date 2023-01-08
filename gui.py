@@ -10,20 +10,24 @@ from country_history import country_history
 matplotlib.use('TkAgg')
 
 
-def plot_bar_chart(plot_title, values_to_plot, y_axis_label):
+def plot_bar_chart(plot_title, values_to_plot, comparison_value, first_country, y_axis_label, second_country=None):
     ind = np.arange(len(values_to_plot))
-    width = 0.4
 
-    p1 = plt.bar(ind, values_to_plot, width)
+    plt.plot(values_to_plot, label=first_country)
+    maximum_value = math.ceil(max(values_to_plot))
 
-    maximum_value = max(values_to_plot)
+    if second_country:
+        plt.plot(comparison_value, label=second_country)
+        maximum_value = math.ceil((max(values_to_plot) + max(comparison_value))/2)
+
     y_tick = math.ceil(maximum_value * 1.1)
 
     plt.ylabel(y_axis_label)
+    plt.xlabel("years")
     plt.title(plot_title)
     plt.xticks(ind, (2015, 2016, 2017, 2018, 2019))
     plt.yticks(np.arange(0, y_tick, y_tick * 0.1))
-    plt.legend((p1[0],), ('Data Group 1',))
+    plt.legend()
 
 
 def global_data(parameter):
@@ -72,6 +76,9 @@ layout = [
     [sg.Text("Select a country and parameter and click PLOT 1 to view the parameter score over time:")],
     [sg.Text("Country")],
     [sg.Combo(sorted(df['Country'].values[:]), enable_events=True, key='-LOCATION-')],
+    [sg.Text("If you want to compare with another country, select it below.")],
+    [sg.Text("Country")],
+    [sg.Combo(sorted(df['Country'].values[:]), enable_events=True, key='-COMPARISON_LOCATION-')],
     [sg.Text("Parameter (by Country)")],
     [sg.Combo(["Happiness score", "Happiness rank", "GDP per capita", "Social support",
                "Healthy life expectancy", "Freedom to make life choices", "Generosity",
@@ -97,9 +104,22 @@ while True:
     event, values = window.read()
     if event == "PLOT 1" or event == sg.WIN_CLOSED:
         parameter = values['-PARAMETER-']
+        comparison_country = values['-COMPARISON_LOCATION-']
         plot_values = country_history(values['-LOCATION-'], parameter)
-        plot_bar_chart('Plot Title', plot_values, f'{parameter}')
+        if comparison_country == "":
+            country_a = values['-LOCATION-']
+            comparison_values = 0
+            plot_title = f"{parameter} of {country_a}"
+            plot_bar_chart(plot_title, plot_values, comparison_values, country_a, parameter)
+        else:
+            country_a = values['-LOCATION-']
+            country_b = values['-COMPARISON_LOCATION-']
+            comparison_values = country_history(values['-COMPARISON_LOCATION-'], parameter)
+            plot_title = f"Comparison of {country_a} vs {country_b} on {parameter}"
+            plot_bar_chart(plot_title, plot_values, comparison_values, country_a, parameter, country_b)
+
         draw_figure(window['-CANVAS-'].TKCanvas, fig)
+
     if event == "CLOSE" or event == sg.WIN_CLOSED:
         break
 
