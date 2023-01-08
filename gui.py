@@ -31,6 +31,19 @@ def plot_bar_chart(plot_title, values_to_plot, comparison_value, first_country, 
     plt.legend()
 
 
+def plot_correlation(values_to_plot):
+    ind = np.arange(len(values_to_plot))
+
+    plt.bar(ind, values_to_plot, 0.4, color=["blue", "red", "green", "orange", "black", "cyan"])
+    y_tick = 1
+
+    plt.ylabel("Correlation")
+    plt.xlabel("Factors")
+    plt.title("Correlation to Happiness")
+    plt.xticks(ind, ("GDP", "Social Support", "Healthy Life Expectancy", "Freedom", "Generosity", "Corruption"))
+    plt.yticks(np.arange(0, y_tick, y_tick * 0.1))
+    plt.legend()
+
 def global_data(parameter):
     data_2019 = pd.read_csv('2019.csv')
     happiness_score = data_2019['Happiness score']
@@ -107,14 +120,20 @@ layout = [
               enable_events=True, key='-PARAMETER1-')],
     [sg.Button("PLOT 2")],
     [sg.Text("Calculate Correlation")],
-    [sg.Combo(sorted(calculate_correlation(file_name).keys()[:]), enable_events=True, key='-PARAMETER2-')],
     [sg.Button("PLOT 3")],
     [sg.Canvas(size=(500, 350), key='-CANVAS-')],
+    [sg.Button("CLEAR")],
     [sg.Button("CLOSE")]
 ]
 
 window = sg.Window(title="Happiness Report", layout=layout, force_toplevel=True, finalize=True,
                    size=(1000, 1000))
+
+
+def delete_figure_agg(figure_agg):
+    figure_agg.get_tk_widget().forget()
+    plt.cla()
+
 
 while True:
     event, values = window.read()
@@ -133,7 +152,13 @@ while True:
             comparison_values = country_history(values['-COMPARISON_LOCATION-'], parameter)
             plot_title = f"Comparison of {country_a} vs {country_b} on {parameter}"
             plot_bar_chart(plot_title, plot_values, comparison_values, country_a, parameter, country_b)
-        draw_figure(window['-CANVAS-'].TKCanvas, fig)
+
+        figure_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)
+
+    if event == "CLEAR":
+        if figure_agg:
+            delete_figure_agg(figure_agg)
+
     if event == "PLOT 2":
         parameter = values['-PARAMETER1-']
         if parameter == 'Minimum wage':
@@ -142,6 +167,8 @@ while True:
             global_data(parameter)
         draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "PLOT 3":
+        values_to_plot = calculate_correlation("2019.csv")
+        plot_correlation(values_to_plot)
         draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "CLOSE" or event == sg.WIN_CLOSED:
         break
