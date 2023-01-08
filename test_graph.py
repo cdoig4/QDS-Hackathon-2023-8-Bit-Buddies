@@ -42,25 +42,16 @@ def min_wage_data():
     plt.show()
 
 
-# data_2019 = pd.read_csv('2019.csv')
-# happiness_score = data_2019['Happiness score']
-# gdp_per_capita = data_2019['GDP per capita']
-# social_support = data_2019['Social support']
-# life_expectancy = data_2019['Healthy life expectancy']
-# freedom = data_2019['Freedom to make life choices']
-# generosity = data_2019['Generosity']
-# corruption = data_2019['Perceptions of corruption']
-# gdp_correlation, _ = pearsonr(happiness_score, gdp_per_capita)
-# social_support_correlation, _ = pearsonr(happiness_score, social_support)
-# life_expectancy_correlation, _ = pearsonr(happiness_score, life_expectancy)
-# freedom_correlation, _ = pearsonr(happiness_score, freedom)
-# generosity_correlation, _ = pearsonr(happiness_score, generosity)
-# corruption_correlation, _ = pearsonr(happiness_score, corruption)
-#
-# correlation_list = [gdp_correlation, social_support_correlation, life_expectancy_correlation, freedom_correlation,
-#                     generosity_correlation, corruption_correlation]
-#
-# print(correlation_list)
-
-correlation_list_2019 = [[0.7938828678781273, 0.777057788063864, 0.7798831492425831, 0.56674182571999,
-                          0.07582369490389648, 0.38561307086647867]]
+def calculate_correlation(file_name):
+    correlation_list = []
+    data = pd.read_csv(file_name)
+    keys_to_remove = ['Happiness rank', 'Country']
+    for key in keys_to_remove:
+        del data[key]
+    for key in data.keys():
+        happiness_score = data['Happiness score']
+        other_data = data[key]
+        current_correlation, _ = pearsonr(happiness_score, other_data)
+        correlation_list.append(current_correlation)
+    correlation_list.remove(correlation_list[0])
+    return correlation_list
