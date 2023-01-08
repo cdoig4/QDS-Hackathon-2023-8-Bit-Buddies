@@ -34,8 +34,8 @@ def global_data(parameter):
     data_2019 = pd.read_csv('2019.csv')
     happiness_score = data_2019['Happiness score']
     comparison_data = data_2019[parameter]
-    plt.scatter(happiness_score, comparison_data, edgecolor='black', linewidths=1)
-    plt.title(f"Correlation between Happiness Score and {parameter}")
+    plt.scatter(happiness_score, comparison_data, edgecolor='black', linewidths=0.5)
+    plt.title(f"Happiness Score vs {parameter}")
     plt.xlabel('Happiness Score')
     plt.ylabel(parameter)
     plt.tight_layout()
@@ -49,8 +49,8 @@ def min_wage_data():
     data_2018 = pd.read_csv('happiness_via_min_wage.csv')
     happiness_score = data_2018['Happiness score']
     comparison_data = data_2018['2018']
-    plt.scatter(happiness_score, comparison_data, edgecolors='black', linewidths=1)
-    plt.title(f"Correlation between Happiness Score and Minimum Wage")
+    plt.scatter(happiness_score, comparison_data, edgecolors='black', linewidths=0.5)
+    plt.title(f"Happiness Score vs Minimum Wage")
     plt.xlabel('Happiness Score')
     plt.ylabel('Minimum Wage')
     plt.tight_layout()
