@@ -35,14 +35,14 @@ def global_data(parameter):
     happiness_score = data_2019['Happiness score']
     comparison_data = data_2019[parameter]
     plt.scatter(happiness_score, comparison_data, edgecolor='black', linewidths=1)
-    plt.title(f"Correlation between Happiness and {parameter}")
+    plt.title(f"Correlation between Happiness Score and {parameter}")
     plt.xlabel('Happiness Score')
     plt.ylabel(parameter)
     plt.tight_layout()
     trendline = np.polyfit(happiness_score, comparison_data, 1)
     calculate_trend = np.poly1d(trendline)
     plt.plot(happiness_score, calculate_trend(happiness_score))
-    plt.show()
+    # plt.show()
 
 
 def min_wage_data():
@@ -50,14 +50,14 @@ def min_wage_data():
     happiness_score = data_2018['Happiness score']
     comparison_data = data_2018['2018']
     plt.scatter(happiness_score, comparison_data, edgecolors='black', linewidths=1)
-    plt.title(f"Correlation between Happiness and Minimum Wage")
+    plt.title(f"Correlation between Happiness Score and Minimum Wage")
     plt.xlabel('Happiness Score')
     plt.ylabel('Minimum Wage')
     plt.tight_layout()
     trendline = np.polyfit(happiness_score, comparison_data, 1)
     calculate_trend = np.poly1d(trendline)
     plt.plot(happiness_score, calculate_trend(happiness_score))
-    plt.show()
+    # plt.show()
 
 
 def draw_figure(canvas, figure):
@@ -89,8 +89,8 @@ layout = [
     [sg.Text("Parameter (Global)")],
     [sg.Combo(["Happiness score", "Happiness rank", "GDP per capita", "Social support",
                "Healthy life expectancy", "Freedom to make life choices", "Generosity",
-               "Perceptions of corruption"],
-              enable_events=True, key='-PARAMETER-')],
+               "Perceptions of corruption", "Minimum wage"],
+              enable_events=True, key='-PARAMETER1-')],
     [sg.Button("PLOT 2"), sg.Button("PLOT 3")],
     [sg.Canvas(size=(500, 350), key='-CANVAS-')],
     [sg.Button("CLOSE")]
@@ -118,6 +118,11 @@ while True:
             plot_bar_chart(plot_title, plot_values, comparison_values, country_a, parameter, country_b)
         draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "PLOT 2":
+        parameter = values['-PARAMETER1-']
+        if parameter == 'Minimum wage':
+            min_wage_data()
+        else:
+            global_data(parameter)
         draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "PLOT 3":
         draw_figure(window['-CANVAS-'].TKCanvas, fig)
