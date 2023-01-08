@@ -44,6 +44,7 @@ def plot_correlation(values_to_plot):
     plt.yticks(np.arange(0, y_tick, y_tick * 0.1))
     plt.legend()
 
+
 def global_data(parameter):
     data_2019 = pd.read_csv('2019.csv')
     happiness_score = data_2019['Happiness score']
@@ -155,21 +156,22 @@ while True:
 
         figure_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)
 
-    if event == "CLEAR":
-        if figure_agg:
-            delete_figure_agg(figure_agg)
-
     if event == "PLOT 2":
         parameter = values['-PARAMETER1-']
         if parameter == 'Minimum wage':
             min_wage_data()
         else:
             global_data(parameter)
-        draw_figure(window['-CANVAS-'].TKCanvas, fig)
+        figure_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)
     if event == "PLOT 3":
         values_to_plot = calculate_correlation("2019.csv")
         plot_correlation(values_to_plot)
-        draw_figure(window['-CANVAS-'].TKCanvas, fig)
+        figure_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)
+
+    if event == "CLEAR":
+        if figure_agg:
+            delete_figure_agg(figure_agg)
+
     if event == "CLOSE" or event == sg.WIN_CLOSED:
         break
 
