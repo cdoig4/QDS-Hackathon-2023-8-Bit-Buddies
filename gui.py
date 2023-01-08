@@ -40,7 +40,7 @@ def plot_correlation(values_to_plot):
     plt.ylabel("Correlation")
     plt.xlabel("Factors")
     plt.title("Correlation to Happiness")
-    plt.xticks(ind, ("GDP", "Social Support", "Healthy Life Expectancy", "Freedom", "Generosity", "Corruption"))
+    plt.xticks(ind, ("GDP", "Social", "Health", "Freedom", "Giving", "Corruption"))
     plt.yticks(np.arange(0, y_tick, y_tick * 0.1))
     plt.legend()
 
