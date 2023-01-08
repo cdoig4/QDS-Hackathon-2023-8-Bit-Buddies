@@ -2,7 +2,7 @@
 
 ## Team Name: 8-Bit Buddies
 
-Team Members:
+### Team Members:
 - Colin Doig
 - Jason Shi
 - Kelly Hagg
