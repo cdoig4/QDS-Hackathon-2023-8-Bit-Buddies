@@ -6,6 +6,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import matplotlib.pyplot as plt
 from country_history import country_history
+from scipy.stats import pearsonr
 
 matplotlib.use('TkAgg')
 
@@ -42,7 +43,6 @@ def global_data(parameter):
     trendline = np.polyfit(happiness_score, comparison_data, 1)
     calculate_trend = np.poly1d(trendline)
     plt.plot(happiness_score, calculate_trend(happiness_score))
-    # plt.show()
 
 
 def min_wage_data():
@@ -57,7 +57,21 @@ def min_wage_data():
     trendline = np.polyfit(happiness_score, comparison_data, 1)
     calculate_trend = np.poly1d(trendline)
     plt.plot(happiness_score, calculate_trend(happiness_score))
-    # plt.show()
+
+
+def calculate_correlation(file_name):
+    correlation_list = []
+    data = pd.read_csv(file_name)
+    keys_to_remove = ['Happiness rank', 'Country']
+    for key in keys_to_remove:
+        del data[key]
+    for key in data.keys():
+        happiness_score = data['Happiness score']
+        other_data = data[key]
+        current_correlation, _ = pearsonr(happiness_score, other_data)
+        correlation_list.append(current_correlation)
+    correlation_list.remove(correlation_list[0])
+    return correlation_list
 
 
 def draw_figure(canvas, figure):
@@ -91,7 +105,10 @@ layout = [
                "Healthy life expectancy", "Freedom to make life choices", "Generosity",
                "Perceptions of corruption", "Minimum wage"],
               enable_events=True, key='-PARAMETER1-')],
-    [sg.Button("PLOT 2"), sg.Button("PLOT 3")],
+    [sg.Button("PLOT 2")],
+    [sg.Text("Calculate Correlation")],
+    [sg.Combo(sorted(calculate_correlation(file_name).keys()[:]), enable_events=True, key='-PARAMETER2-')],
+    [sg.Button("PLOT 3")],
     [sg.Canvas(size=(500, 350), key='-CANVAS-')],
     [sg.Button("CLOSE")]
 ]
